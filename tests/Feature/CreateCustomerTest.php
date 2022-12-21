@@ -79,22 +79,7 @@ class CreateCustomerTest extends TestCase
 
     public function testCustomerListedSuccessfully()
     {
-
-       // $user = factory(User::class)->create();
         $user = User::factory(2)->create();
-        //$this->actingAs($user, 'api');
-
-        /* factory(User::class)->create([
-            "name" => "Susan",
-            "email" => "susan@test.com",
-            "password" => "12345678",
-        ]);
-
-        factory(User::class)->create([
-            "name" => "Mark",
-            "email" => "mark@test.com",
-            "password" => "12345678",
-        ]); */
 
         $this->json('GET', 'api/list-customer', ['Accept' => 'application/json'])
             ->assertStatus(201)
@@ -106,16 +91,7 @@ class CreateCustomerTest extends TestCase
 
     public function testRetrieveCustomerSuccessfully()
     {
-        //$user = factory(User::class)->create();
         $user = User::factory(1)->create();
-        //$this->actingAs($user, 'api');
-
-       /*  $ceo = factory(User::class)->create([
-            "name" => "Susan",
-            "email" => "test@test1.com",
-            "password" => "12345678",
-        ]); */
-
         $this->json('GET', 'api/retrive-customer/' . $user->id, [], ['Accept' => 'application/json'])
             ->assertStatus(200)
             ->assertJson([
@@ -126,15 +102,7 @@ class CreateCustomerTest extends TestCase
 
     public function testCustomerUpdatedSuccessfully()
     {
-        //$user = factory(User::class)->create();
         $user = User::factory(1)->create();
-        //$this->actingAs($user, 'api');
-
-        /* $ceo = factory(User::class)->create([
-            "name" => "Susan2",
-            "email" => "test@test2.com",
-            "password" => "12345678",
-        ]); */
 
         $payload = [
             "name" => "Susan3",
