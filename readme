@@ -1,0 +1,38 @@
+1) Clone the code from github
+2) Copy .env.example file and and rename it in .env in root directory
+3) Change database name in .env file
+4) Apply "composer install" command in you terminal
+5) Apply "php artisan migrate" command in your terminal
+
+Please check postman collection in your root directory jsonCollection/Stripe.postman_collection
+
+Create customer api
+EndPoint : /api/create-customer
+Method : POST
+Parameter : name:test
+            email:test@test.com
+            password:12345678
+            password_confirmation:12345678
+
+List all customer api
+EndPoint : /api/list-customer
+Method : GET
+
+Retrive customer api
+EndPoint : /api/retrive-customer
+Method : GET
+Parameter : id:1
+
+Update customer api
+EndPoint : /api/update-customer
+Method : POST
+Parameter : id:1
+            name:test01
+            email:test01@test.com
+
+Delete customer api
+EndPoint : /api/delete-customer
+Method : DELETE
+Parameter : id:1
+
+
