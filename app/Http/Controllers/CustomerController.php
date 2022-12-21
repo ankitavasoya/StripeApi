@@ -124,33 +124,4 @@ class CustomerController extends Controller
             ], 201);
         }
     }
-
-    public function delete(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'id' => 'required',
-        ]);
-        if($validator->fails()){
-            return response()->json($validator->errors(), 400);
-        }
-        $id = $request->id;
-        $customer = User::find($id);
-
-        if($customer) {
-            $this->stripe->customers->delete(
-                $customer->stripe_id,
-                []
-              );
-            $customer->delete();
-            return response()->json([
-                'success'=>'true',
-                'message' => 'User deleted successfully',
-            ], 201);
-        } else {
-            return response()->json([
-                'success'=>'false',
-                'message' => 'User not found',
-            ], 201);
-        }
-    }
 }

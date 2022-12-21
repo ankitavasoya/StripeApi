@@ -22,4 +22,3 @@ Route::post('create-customer', [CustomerController::class,'create'])->name('crea
 Route::get('list-customer', [CustomerController::class,'list'])->name('listCustomer');
 Route::get('retrive-customer', [CustomerController::class,'retrive'])->name('retriveCustomer');
 Route::post('update-customer', [CustomerController::class,'update'])->name('updateCustomer');
-Route::delete('delete-customer', [CustomerController::class,'delete'])->name('deleteCustomer');

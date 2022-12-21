@@ -30,9 +30,6 @@ Parameter : id:1
             name:test01
             email:test01@test.com
 
-Delete customer api
-EndPoint : /api/delete-customer
-Method : DELETE
-Parameter : id:1
+You can test unit testing by using composer "test command"
 
 

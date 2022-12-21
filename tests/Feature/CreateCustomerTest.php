@@ -6,6 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use App\Models\User;
+use Illuminate\Support\Str;
 
 class CreateCustomerTest extends TestCase
 {
@@ -21,38 +22,19 @@ class CreateCustomerTest extends TestCase
         $response->assertStatus(200);
     } */
 
+    //Test case for check validation
     public function testRequiredFieldsForCreateCustomer()
     {
         $this->json('POST', 'api/create-customer', ['Accept' => 'application/json'])
             ->assertStatus(400)
             ->assertJson([
-                "message" => "The given data was invalid.",
-                "errors" => [
-                    "name" => ["The name field is required."],
-                    "email" => ["The email field is required."],
-                    "password" => ["The password field is required."],
-                ]
+                "name" => ["The name field is required."],
+                "email" => ["The email field is required."],
+                "password" => ["The password field is required."],
             ]);
     }
 
-    public function testRepeatPassword()
-    {
-        $userData = [
-            "name" => "John Doe",
-            "email" => "doe@example.com",
-            "password" => "demo12345"
-        ];
-
-        $this->json('POST', 'api/create-customer', $userData, ['Accept' => 'application/json'])
-            ->assertStatus(400)
-            ->assertJson([
-                "message" => "The given data was invalid.",
-                "errors" => [
-                    "password" => ["The password confirmation does not match."]
-                ]
-            ]);
-    }
-
+    //Test case for successfully customer connect
     public function testSuccessfulCreateCustomer()
     {
         $userData = [
@@ -69,14 +51,15 @@ class CreateCustomerTest extends TestCase
                     'id',
                     'name',
                     'email',
+                    'stripe_id',
                     'created_at',
                     'updated_at',
                 ],
-                "access_token",
                 "message"
             ]);
     }
 
+    //Test case for customer all list
     public function testCustomerListedSuccessfully()
     {
         $user = User::factory(2)->create();
@@ -89,20 +72,22 @@ class CreateCustomerTest extends TestCase
             ]);
     }
 
+    //Test case for retrive customer
     public function testRetrieveCustomerSuccessfully()
     {
-        $user = User::factory(1)->create();
+        $user = User::factory()->create();
         $this->json('GET', 'api/retrive-customer/' . $user->id, [], ['Accept' => 'application/json'])
-            ->assertStatus(200)
+            ->assertStatus(201)
             ->assertJson([
                 "user" => $user,
                 "message" => "Retrieved successfully"
             ]);
     }
 
+    //Test case for update customer
     public function testCustomerUpdatedSuccessfully()
     {
-        $user = User::factory(1)->create();
+        $user = User::factory()->create();
 
         $payload = [
             "name" => "Susan3",
@@ -121,9 +106,5 @@ class CreateCustomerTest extends TestCase
     {
        $user = \App\Models\User::factory()->create();
        dd(User::all());
-       //$this->assertTrue(true);
-
-        //$this->json('DELETE', 'api/delete-customer/' . $user->id, [], ['Accept' => 'application/json'])
-            //->assertStatus(204);
     }
 }
