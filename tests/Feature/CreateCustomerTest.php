@@ -92,7 +92,6 @@ class CreateCustomerTest extends TestCase
     public function testRetrieveCustomerSuccessfully()
     {
         $user = User::factory(1)->create();
-
         $this->json('GET', 'api/retrive-customer/' . $user->id, [], ['Accept' => 'application/json'])
             ->assertStatus(200)
             ->assertJson([

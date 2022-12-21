@@ -12,7 +12,7 @@ class CustomerController extends Controller
     {
         $this->stripe = new \Stripe\StripeClient(
             env("STRIPE_SECRET")
-            );
+        );
     }
     public function create(Request $request)
     {
@@ -28,7 +28,7 @@ class CustomerController extends Controller
         $customer = $this->stripe->customers->create([
             'name' => $request->name,
             'email' => $request->email
-            ]);
+        ]);
         if($customer) {
             $user = User::create(array_merge(
                 $validator->validated(),
@@ -70,8 +70,8 @@ class CustomerController extends Controller
         $customer = User::find($id);
         if($customer) {
             $customer_retrive =  $this->stripe->customers->retrieve(
-            $customer->stripe_id,
-            []
+                $customer->stripe_id,
+                []
             );
             return response()->json([
                 'success'=>'true',
@@ -152,6 +152,5 @@ class CustomerController extends Controller
                 'message' => 'User not found',
             ], 201);
         }
-       
     }
 }
