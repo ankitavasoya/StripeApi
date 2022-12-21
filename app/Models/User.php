@@ -23,9 +23,6 @@ class User extends Authenticatable
         'email',
         'password',
         'stripe_id',
-        'pm_type',
-        'pm_last_four',
-        'trial_ends_at'
     ];
 
     /**
