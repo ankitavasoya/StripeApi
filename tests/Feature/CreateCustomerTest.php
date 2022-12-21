@@ -80,10 +80,11 @@ class CreateCustomerTest extends TestCase
     public function testCustomerListedSuccessfully()
     {
 
-        $user = factory(User::class)->create();
-        $this->actingAs($user, 'api');
+       // $user = factory(User::class)->create();
+        $user = User::factory(2)->create();
+        //$this->actingAs($user, 'api');
 
-        factory(User::class)->create([
+        /* factory(User::class)->create([
             "name" => "Susan",
             "email" => "susan@test.com",
             "password" => "12345678",
@@ -93,89 +94,67 @@ class CreateCustomerTest extends TestCase
             "name" => "Mark",
             "email" => "mark@test.com",
             "password" => "12345678",
-        ]);
+        ]); */
 
         $this->json('GET', 'api/list-customer', ['Accept' => 'application/json'])
             ->assertStatus(201)
             ->assertJson([
-                "users" => [
-                    [
-                        "id" => 1,
-                        "name" => "Susan",
-                        "email" => "susan@test.com",
-                    ],
-                    [
-                        "id" => 2,
-                        "name" => "Mark",
-                        "email" => "mark@test.com",
-                    ]
-                ],
+                "users" => $user,
                 "message" => "Retrieved successfully"
             ]);
     }
 
     public function testRetrieveCustomerSuccessfully()
     {
-        $user = factory(User::class)->create();
-        $this->actingAs($user, 'api');
+        //$user = factory(User::class)->create();
+        $user = User::factory(1)->create();
+        //$this->actingAs($user, 'api');
 
-        $ceo = factory(User::class)->create([
+       /*  $ceo = factory(User::class)->create([
             "name" => "Susan",
             "email" => "test@test1.com",
             "password" => "12345678",
-        ]);
+        ]); */
 
-        $this->json('GET', 'api/retrive-customer/' . $ceo->id, [], ['Accept' => 'application/json'])
+        $this->json('GET', 'api/retrive-customer/' . $user->id, [], ['Accept' => 'application/json'])
             ->assertStatus(200)
             ->assertJson([
-                "ceo" => [
-                        "name" => "Susan",
-                        "email" => "test@test1.com",
-                ],
+                "user" => $user,
                 "message" => "Retrieved successfully"
             ]);
     }
 
-    public function testCEOUpdatedSuccessfully()
+    public function testCustomerUpdatedSuccessfully()
     {
-        $user = factory(User::class)->create();
-        $this->actingAs($user, 'api');
+        //$user = factory(User::class)->create();
+        $user = User::factory(1)->create();
+        //$this->actingAs($user, 'api');
 
-        $ceo = factory(User::class)->create([
+        /* $ceo = factory(User::class)->create([
             "name" => "Susan2",
             "email" => "test@test2.com",
             "password" => "12345678",
-        ]);
+        ]); */
 
         $payload = [
             "name" => "Susan3",
             "email" => "test@test3.com",
         ];
 
-        $this->json('PATCH', 'api/update-customer/' . $ceo->id , $payload, ['Accept' => 'application/json'])
+        $this->json('PATCH', 'api/update-customer/' . $user->id , $payload, ['Accept' => 'application/json'])
             ->assertStatus(200)
             ->assertJson([
-                "ceo" => [
-                    "name" => "Susan3",
-                    "email" => "test@test3.com",
-                    "password" => "12345678",
-                ],
+                "user" => $user,
                 "message" => "Updated successfully"
             ]);
     }
 
     public function testDeleteCustomer()
     {
-        $user = factory(User::class)->create();
-        $this->actingAs($user, 'api');
-
-        $ceo = factory(User::class)->create([
-            "name" => "Susan",
-            "email" => "test@test.com",
-            "password" => "2014",
-        ]);
-
-        $this->json('DELETE', 'api/delete-customer/' . $ceo->id, [], ['Accept' => 'application/json'])
-            ->assertStatus(204);
+       $user = \App\Models\User::factory(10)->create();
+       dd(User::all());
+       $this->assertTrue(true);
+        //$this->json('DELETE', 'api/delete-customer/' . $user->id, [], ['Accept' => 'application/json'])
+            //->assertStatus(204);
     }
 }

@@ -12,7 +12,7 @@ class CustomerController extends Controller
     {
         $this->stripe = new \Stripe\StripeClient(
             env("STRIPE_SECRET")
-            );
+        );
     }
     public function create(Request $request)
     {
@@ -28,15 +28,14 @@ class CustomerController extends Controller
         $customer = $this->stripe->customers->create([
             'name' => $request->name,
             'email' => $request->email
-            ]);
+        ]);
 
         $user = User::create(array_merge(
-                    $validator->validated(),
-                    ['password' => bcrypt($request->password),
-                    'stripe_id' => $customer->id]
-                ));
+            $validator->validated(),
+            ['password' => bcrypt($request->password),
+            'stripe_id' => $customer->id]
+        ));
 
-        
         return response()->json([
             'success'=>'true',
             'message' => 'User successfully registered',
@@ -67,8 +66,8 @@ class CustomerController extends Controller
         $customer = User::find($id);
         if($customer) {
             $customer_retrive =  $this->stripe->customers->retrieve(
-            $customer->stripe_id,
-            []
+                $customer->stripe_id,
+                []
             );
             return response()->json([
                 'success'=>'true',
@@ -90,10 +89,9 @@ class CustomerController extends Controller
             'email' => 'required|string|email|max:100|unique:users',    
         ]);
         if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors(), 400);
         }
 
-       
         $data = $request->except(['id']);
         $id = $request->id;
        
@@ -124,7 +122,7 @@ class CustomerController extends Controller
             'id' => 'required',
         ]);
         if($validator->fails()){
-            return response()->json($validator->errors()->toJson(), 400);
+            return response()->json($validator->errors(), 400);
         }
         $id = $request->id;
         $customer = User::find($id);
@@ -145,6 +143,5 @@ class CustomerController extends Controller
                 'message' => 'User not found',
             ], 201);
         }
-       
     }
 }
